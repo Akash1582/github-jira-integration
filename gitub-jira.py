@@ -16,6 +16,7 @@ def createJira():
 
     url = "https://bhesalakash123.atlassian.net//rest/api/3/issue"
 
+    #Get the env variable from operating system using OS module
     API_TOKEN= os.getenv("API_Token")
 
     auth = HTTPBasicAuth("bhesalakash123@gmail.com", API_TOKEN)
