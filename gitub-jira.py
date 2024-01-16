@@ -48,7 +48,7 @@ def createJira():
         "issuetype": {
             "id": "10006"
         },
-        "summary": "Main order flow broken",
+        "summary": request_data["issue"]["title"], #Here taking data from request body for issue name on Jira ticket
     },
     "update": {}
     } )
