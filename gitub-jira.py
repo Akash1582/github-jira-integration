@@ -3,7 +3,8 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-from flask import Flask
+from flask import Flask, request
+import os
 
 app = Flask(__name__)
 
@@ -11,11 +12,13 @@ app = Flask(__name__)
 @app.route('/createJira', methods=['POST'])
 def createJira():
 
+    request_data = request.get_json()  #It take request data in json format
+
     url = "https://bhesalakash123.atlassian.net//rest/api/3/issue"
 
-    API_TOKEN=""
+    API_TOKEN= os.getenv("API_Token")
 
-    auth = HTTPBasicAuth("", API_TOKEN)
+    auth = HTTPBasicAuth("bhesalakash123@gmail.com", API_TOKEN)
 
     headers = {
         "Accept": "application/json",
@@ -50,16 +53,23 @@ def createJira():
     "update": {}
     } )
 
-
-    response = requests.request(
+    if (request_data["comment"]["body"] == "/jira"):
+        response = requests.request(
         "POST",
         url,
         data=payload,
         headers=headers,
         auth=auth
-    )
+        )
+        return json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": "))
+    else:
+        return "Comment should be '/jira' "
+    
+    
+@app.route('/')
+def index():
 
-    return json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": "))
+    return "Hello this is api hosted for Github-Jira integration"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
