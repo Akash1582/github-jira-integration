@@ -18,8 +18,8 @@ def createJira():
 
     #Get the env variable from operating system using OS module
     API_TOKEN= os.getenv("API_Token")
-
-    auth = HTTPBasicAuth("bhesalakash123@gmail.com", API_TOKEN)
+    Username = ""  #Provide email address of jira account
+    auth = HTTPBasicAuth(Username, API_TOKEN)
 
     headers = {
         "Accept": "application/json",
@@ -69,7 +69,6 @@ def createJira():
     
 @app.route('/')
 def index():
-
     return "Hello this is api hosted for Github-Jira integration"
 
 if __name__ == '__main__':
